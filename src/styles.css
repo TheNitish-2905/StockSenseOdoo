@@ -1,0 +1,61 @@
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    color: #0f172a;
+    background-color: #f8fafc;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Subtle custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Material symbols vertical alignment */
+.material-symbols-outlined {
+  vertical-align: middle;
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Subtle transitions for buttons and cards */
+.btn-press:active {
+  transform: translateY(1px);
+}
+
+/* Table row compact design */
+.compact-table th {
+  padding: 0.625rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+}
+
+.compact-table td {
+  padding: 0.75rem 0.875rem;
+  font-size: 0.875rem;
+  color: #1e293b;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.compact-table tr:hover td {
+  background-color: #f8fafc;
+}

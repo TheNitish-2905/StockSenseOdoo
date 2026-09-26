@@ -1,0 +1,501 @@
+{
+  "users": [
+    {
+      "id": "usr-1",
+      "name": "Navdeep Sharma",
+      "email": "admin@stocksense.local",
+      "password": "admin123",
+      "role": "Inventory Manager",
+      "department": "Supply Chain Operations",
+      "assignedWarehouse": "WH-01",
+      "avatarInitials": "NS"
+    }
+  ],
+  "categories": [
+    "Raw Materials",
+    "Finished Goods",
+    "Packaging",
+    "Components",
+    "Hardware"
+  ],
+  "warehouses": [
+    {
+      "id": "WH-01",
+      "code": "WH-01",
+      "name": "Main Central Hub",
+      "address": "74 Industrial Parkway, North Gate",
+      "contactPerson": "David Miller",
+      "phone": "+1 (555) 234-5678",
+      "locations": [
+        {
+          "id": "LOC-01-01",
+          "code": "A-01",
+          "name": "Rack A-01",
+          "type": "High Density Rack"
+        },
+        {
+          "id": "LOC-01-02",
+          "code": "B-02",
+          "name": "Rack B-02",
+          "type": "Standard Storage"
+        },
+        {
+          "id": "LOC-01-03",
+          "code": "RCV-01",
+          "name": "Receiving Area",
+          "type": "Staging & Intake"
+        },
+        {
+          "id": "LOC-01-04",
+          "code": "DSP-01",
+          "name": "Dispatch Bay",
+          "type": "Outbound Staging"
+        }
+      ]
+    },
+    {
+      "id": "WH-02",
+      "code": "WH-02",
+      "name": "Production Facility",
+      "address": "Sector 12, Factory District",
+      "contactPerson": "Elena Rostova",
+      "phone": "+1 (555) 876-5432",
+      "locations": [
+        {
+          "id": "LOC-02-01",
+          "code": "ASM-01",
+          "name": "Assembly Floor",
+          "type": "Work in Progress"
+        },
+        {
+          "id": "LOC-02-02",
+          "code": "RAW-01",
+          "name": "Raw Store",
+          "type": "Materials Buffer"
+        },
+        {
+          "id": "LOC-02-03",
+          "code": "STG-01",
+          "name": "Staging Area",
+          "type": "Buffer Bay"
+        }
+      ]
+    },
+    {
+      "id": "WH-03",
+      "code": "WH-03",
+      "name": "East Distribution Center",
+      "address": "Terminal 4, Port Logistics Park",
+      "contactPerson": "Marcus Chen",
+      "phone": "+1 (555) 345-6789",
+      "locations": [
+        {
+          "id": "LOC-03-01",
+          "code": "AISLE-1",
+          "name": "Aisle 1",
+          "type": "Fast Pick Rack"
+        },
+        {
+          "id": "LOC-03-02",
+          "code": "AISLE-2",
+          "name": "Aisle 2",
+          "type": "Bulk Pallet Racks"
+        },
+        {
+          "id": "LOC-03-03",
+          "code": "COLD-01",
+          "name": "Cold Storage",
+          "type": "Temperature Controlled"
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "PRD-101",
+      "name": "Steel Rods 12mm",
+      "sku": "STL-RD-101",
+      "category": "Raw Materials",
+      "uom": "kg",
+      "reorderLevel": 50,
+      "costPrice": 4.25,
+      "description": "High-tensile deformed carbon steel reinforcement rods 12mm grade 60",
+      "stockByLocation": {
+        "LOC-01-01": 170,
+        "LOC-02-02": 30
+      }
+    },
+    {
+      "id": "PRD-102",
+      "name": "Ergonomic Office Chairs",
+      "sku": "OFF-CHR-204",
+      "category": "Finished Goods",
+      "uom": "units",
+      "reorderLevel": 25,
+      "costPrice": 85,
+      "description": "High-back mesh ergonomic task chair with adjustable lumbar support",
+      "stockByLocation": {
+        "LOC-03-01": 45
+      }
+    },
+    {
+      "id": "PRD-103",
+      "name": "Birch Wooden Panels 18mm",
+      "sku": "WOD-PNL-305",
+      "category": "Raw Materials",
+      "uom": "sheets",
+      "reorderLevel": 30,
+      "costPrice": 22.5,
+      "description": "Standard 4x8ft premium multi-ply birch plywood sheets",
+      "stockByLocation": {
+        "LOC-01-02": 15
+      }
+    },
+    {
+      "id": "PRD-104",
+      "name": "Industrial Screws M4x25",
+      "sku": "FAS-SCR-402",
+      "category": "Hardware",
+      "uom": "boxes",
+      "reorderLevel": 100,
+      "costPrice": 7.8,
+      "description": "Stainless steel self-tapping countersunk screws (100 per box)",
+      "stockByLocation": {
+        "LOC-01-01": 240,
+        "LOC-02-01": 60
+      }
+    },
+    {
+      "id": "PRD-105",
+      "name": "Corrugated Packaging Boxes L",
+      "sku": "PKG-BOX-501",
+      "category": "Packaging",
+      "uom": "units",
+      "reorderLevel": 200,
+      "costPrice": 1.15,
+      "description": "Heavy-duty double-wall shipping carton 450x300x300mm",
+      "stockByLocation": {
+        "LOC-01-02": 0
+      }
+    },
+    {
+      "id": "PRD-106",
+      "name": "Aluminum Sheets 2mm",
+      "sku": "ALU-SHT-602",
+      "category": "Raw Materials",
+      "uom": "sheets",
+      "reorderLevel": 40,
+      "costPrice": 38,
+      "description": "Aerospace grade 6061-T6 aluminum sheets 1200x2400mm",
+      "stockByLocation": {
+        "LOC-01-01": 35
+      }
+    },
+    {
+      "id": "PRD-107",
+      "name": "Heavy Hex Bolts M12",
+      "sku": "FAS-BLT-708",
+      "category": "Hardware",
+      "uom": "kg",
+      "reorderLevel": 80,
+      "costPrice": 5.4,
+      "description": "Grade 8.8 structural hex head bolts with zinc plating",
+      "stockByLocation": {
+        "LOC-02-02": 110
+      }
+    },
+    {
+      "id": "PRD-108",
+      "name": "Finished Executive Tables",
+      "sku": "FUR-TBL-901",
+      "category": "Finished Goods",
+      "uom": "units",
+      "reorderLevel": 10,
+      "costPrice": 240,
+      "description": "Solid birch modern executive desks with cable management tray",
+      "stockByLocation": {
+        "LOC-03-02": 12
+      }
+    }
+  ],
+  "receipts": [
+    {
+      "id": "REC-2026-004",
+      "reference": "REC-2026-004",
+      "supplier": "Apex Metal Supplies Ltd",
+      "warehouseId": "WH-01",
+      "locationId": "LOC-01-01",
+      "status": "Done",
+      "createdAt": "2026-09-26T07:11:18.171Z",
+      "validatedAt": "2026-09-26T07:11:18.175Z",
+      "validatedBy": "PostgreSQL Test Runner",
+      "notes": "",
+      "items": [
+        {
+          "productId": "PRD-101",
+          "quantity": 50,
+          "uom": "kg"
+        }
+      ]
+    },
+    {
+      "id": "REC-2026-001",
+      "reference": "REC-2026-001",
+      "supplier": "Apex Metal Supplies Ltd",
+      "warehouseId": "WH-01",
+      "locationId": "LOC-01-01",
+      "status": "Done",
+      "createdAt": "2026-09-24T09:30:00Z",
+      "validatedAt": "2026-09-24T11:15:00Z",
+      "validatedBy": "Navdeep Sharma",
+      "notes": "Inbound delivery PO-8821 verified and unloaded.",
+      "items": [
+        {
+          "productId": "PRD-101",
+          "quantity": 50,
+          "uom": "kg"
+        }
+      ]
+    },
+    {
+      "id": "REC-2026-002",
+      "reference": "REC-2026-002",
+      "supplier": "EcoPack Solutions",
+      "warehouseId": "WH-01",
+      "locationId": "LOC-01-02",
+      "status": "Waiting",
+      "createdAt": "2026-09-25T14:20:00Z",
+      "validatedAt": null,
+      "validatedBy": null,
+      "notes": "Urgent restocking order for shipment packaging.",
+      "items": [
+        {
+          "productId": "PRD-105",
+          "quantity": 250,
+          "uom": "units"
+        }
+      ]
+    },
+    {
+      "id": "REC-2026-003",
+      "reference": "REC-2026-003",
+      "supplier": "Nordic Timber & Board Co",
+      "warehouseId": "WH-01",
+      "locationId": "LOC-01-02",
+      "status": "Draft",
+      "createdAt": "2026-09-26T08:10:00Z",
+      "validatedAt": null,
+      "validatedBy": null,
+      "notes": "Scheduled container intake for tomorrow morning.",
+      "items": [
+        {
+          "productId": "PRD-103",
+          "quantity": 40,
+          "uom": "sheets"
+        }
+      ]
+    }
+  ],
+  "deliveries": [
+    {
+      "id": "DEL-2026-001",
+      "reference": "DEL-2026-001",
+      "customer": "Modern Workspaces Ltd",
+      "warehouseId": "WH-03",
+      "locationId": "LOC-03-01",
+      "status": "Done",
+      "createdAt": "2026-09-23T10:00:00Z",
+      "validatedAt": "2026-09-23T15:45:00Z",
+      "validatedBy": "Navdeep Sharma",
+      "notes": "Dispatch for corporate office refurbishment project.",
+      "items": [
+        {
+          "productId": "PRD-102",
+          "quantity": 10,
+          "uom": "units"
+        }
+      ]
+    },
+    {
+      "id": "DEL-2026-002",
+      "reference": "DEL-2026-002",
+      "customer": "ConstructCo Builders",
+      "warehouseId": "WH-01",
+      "locationId": "LOC-01-01",
+      "status": "Ready",
+      "createdAt": "2026-09-25T11:30:00Z",
+      "validatedAt": null,
+      "validatedBy": null,
+      "notes": "Checked and packed at Dispatch Bay. Awaiting carrier pickup.",
+      "items": [
+        {
+          "productId": "PRD-101",
+          "quantity": 20,
+          "uom": "kg"
+        }
+      ]
+    },
+    {
+      "id": "DEL-2026-003",
+      "reference": "DEL-2026-003",
+      "customer": "BuildCraft Interiors",
+      "warehouseId": "WH-03",
+      "locationId": "LOC-03-02",
+      "status": "Waiting",
+      "createdAt": "2026-09-26T07:45:00Z",
+      "validatedAt": null,
+      "validatedBy": null,
+      "notes": "Awaiting shipping confirmation from customer logistics.",
+      "items": [
+        {
+          "productId": "PRD-108",
+          "quantity": 4,
+          "uom": "units"
+        }
+      ]
+    }
+  ],
+  "transfers": [
+    {
+      "id": "TRF-2026-001",
+      "reference": "TRF-2026-001",
+      "sourceWarehouseId": "WH-01",
+      "sourceLocationId": "LOC-01-01",
+      "destWarehouseId": "WH-02",
+      "destLocationId": "LOC-02-02",
+      "productId": "PRD-101",
+      "quantity": 20,
+      "uom": "kg",
+      "status": "Done",
+      "createdAt": "2026-09-24T16:00:00Z",
+      "validatedAt": "2026-09-24T17:30:00Z",
+      "validatedBy": "Navdeep Sharma",
+      "notes": "Replenishing raw materials line for plant fabrication batch."
+    },
+    {
+      "id": "TRF-2026-002",
+      "reference": "TRF-2026-002",
+      "sourceWarehouseId": "WH-01",
+      "sourceLocationId": "LOC-01-01",
+      "destWarehouseId": "WH-02",
+      "destLocationId": "LOC-02-01",
+      "productId": "PRD-104",
+      "quantity": 40,
+      "uom": "boxes",
+      "status": "Waiting",
+      "createdAt": "2026-09-25T13:15:00Z",
+      "validatedAt": null,
+      "validatedBy": null,
+      "notes": "Scheduled inter-facility transit for upcoming assembly run."
+    }
+  ],
+  "adjustments": [
+    {
+      "id": "ADJ-2026-001",
+      "reference": "ADJ-2026-001",
+      "warehouseId": "WH-01",
+      "locationId": "LOC-01-02",
+      "productId": "PRD-103",
+      "previousQuantity": 18,
+      "countedQuantity": 15,
+      "difference": -3,
+      "uom": "sheets",
+      "reason": "Damaged in transit / forklift handling",
+      "adjustedBy": "Navdeep Sharma",
+      "createdAt": "2026-09-25T09:10:00Z",
+      "status": "Done"
+    }
+  ],
+  "ledger": [
+    {
+      "id": "LED-1790406678175-248",
+      "timestamp": "2026-09-26T07:11:18.175Z",
+      "reference": "REC-2026-004",
+      "operationType": "Receipt",
+      "productId": "PRD-101",
+      "productName": "Steel Rods 12mm",
+      "sku": "STL-RD-101",
+      "sourceLocation": "Vendor: Apex Metal Supplies Ltd",
+      "destLocation": "Main Central Hub — Rack A-01",
+      "quantity": 50,
+      "uom": "kg",
+      "previousStock": 150,
+      "newStock": 200,
+      "user": "PostgreSQL Test Runner",
+      "reason": "Inbound vendor receipt validated",
+      "status": "Done"
+    },
+    {
+      "id": "LED-001",
+      "timestamp": "2026-09-23T15:45:00Z",
+      "reference": "DEL-2026-001",
+      "operationType": "Delivery",
+      "productId": "PRD-102",
+      "productName": "Ergonomic Office Chairs",
+      "sku": "OFF-CHR-204",
+      "sourceLocation": "East Distribution Center - Aisle 1",
+      "destLocation": "Customer: Modern Workspaces Ltd",
+      "quantity": -10,
+      "uom": "units",
+      "previousStock": 55,
+      "newStock": 45,
+      "user": "Navdeep Sharma",
+      "reason": "Customer Order Delivery Completed",
+      "status": "Done"
+    },
+    {
+      "id": "LED-002",
+      "timestamp": "2026-09-24T11:15:00Z",
+      "reference": "REC-2026-001",
+      "operationType": "Receipt",
+      "productId": "PRD-101",
+      "productName": "Steel Rods 12mm",
+      "sku": "STL-RD-101",
+      "sourceLocation": "Vendor: Apex Metal Supplies Ltd",
+      "destLocation": "Main Central Hub - Rack A-01",
+      "quantity": 50,
+      "uom": "kg",
+      "previousStock": 100,
+      "newStock": 150,
+      "user": "Navdeep Sharma",
+      "reason": "Vendor Intake Receipt Validated",
+      "status": "Done"
+    },
+    {
+      "id": "LED-003",
+      "timestamp": "2026-09-24T17:30:00Z",
+      "reference": "TRF-2026-001",
+      "operationType": "Transfer",
+      "productId": "PRD-101",
+      "productName": "Steel Rods 12mm",
+      "sku": "STL-RD-101",
+      "sourceLocation": "Main Central Hub - Rack A-01",
+      "destLocation": "Production Facility - Raw Store",
+      "quantity": 20,
+      "uom": "kg",
+      "previousStock": 150,
+      "newStock": 150,
+      "user": "Navdeep Sharma",
+      "reason": "Internal Facility Stock Transfer",
+      "status": "Done"
+    },
+    {
+      "id": "LED-004",
+      "timestamp": "2026-09-25T09:10:00Z",
+      "reference": "ADJ-2026-001",
+      "operationType": "Adjustment",
+      "productId": "PRD-103",
+      "productName": "Birch Wooden Panels 18mm",
+      "sku": "WOD-PNL-305",
+      "sourceLocation": "Main Central Hub - Rack B-02",
+      "destLocation": "Physical Count Adjustment",
+      "quantity": -3,
+      "uom": "sheets",
+      "previousStock": 18,
+      "newStock": 15,
+      "user": "Navdeep Sharma",
+      "reason": "Damaged in transit / forklift handling",
+      "status": "Done"
+    }
+  ]
+}
