@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockSense — Products</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            display: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: #070A12;
+      color: #F8FAFC;
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .aurora {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(94,92,230,.20), transparent 28%),
+        radial-gradient(circle at 85% 24%, rgba(10,132,255,.14), transparent 28%),
+        radial-gradient(circle at 55% 80%, rgba(191,90,242,.10), transparent 30%),
+        linear-gradient(150deg, #070A12 0%, #0B1020 46%, #090C17 100%);
+    }
+
+    .aurora::before,
+    .aurora::after {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: .55;
+      animation: drift 14s ease-in-out infinite alternate;
+    }
+
+    .aurora::before {
+      top: 8%;
+      left: 30%;
+      background: rgba(10,132,255,.14);
+    }
+
+    .aurora::after {
+      right: 4%;
+      bottom: 8%;
+      background: rgba(191,90,242,.12);
+      animation-duration: 18s;
+      animation-direction: alternate-reverse;
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(-15px, 0, 0) scale(1); }
+      to { transform: translate3d(20px, -20px, 0) scale(1.08); }
+    }
+
+    .glass {
+      position: relative;
+      background:
+        linear-gradient(135deg,
+          rgba(255,255,255,.105) 0%,
+          rgba(255,255,255,.035) 44%,
+          rgba(8,13,26,.56) 100%);
+      backdrop-filter: blur(28px) saturate(175%);
+      -webkit-backdrop-filter: blur(28px) saturate(175%);
+      border: 1px solid rgba(255,255,255,.11);
+      border-top-color: rgba(255,255,255,.26);
+      border-radius: 28px;
+      box-shadow:
+        inset 0 1.5px 1px rgba(255,255,255,.25),
+        inset 0 -1px 2px rgba(0,0,0,.42),
+        0 18px 42px rgba(0,0,0,.42);
+      overflow: hidden;
+    }
+
+    .glass::after {
+      content: "";
+      position: absolute;
+      left: 7%;
+      right: 26%;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.48), transparent);
+      opacity: .65;
+      pointer-events: none;
+    }
+
+    .glass-soft {
+      background:
+        linear-gradient(135deg,
+          rgba(255,255,255,.075),
+          rgba(255,255,255,.02) 48%,
+          rgba(7,11,22,.48));
+      backdrop-filter: blur(22px) saturate(170%);
+      -webkit-backdrop-filter: blur(22px) saturate(170%);
+      border: 1px solid rgba(255,255,255,.10);
+      border-top-color: rgba(255,255,255,.20);
+      box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.20),
+        inset 0 -1px 2px rgba(0,0,0,.34),
+        0 10px 28px rgba(0,0,0,.32);
+    }
+
+    .glass:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        inset 0 1.6px 1.2px rgba(255,255,255,.34),
+        inset 0 -1px 2px rgba(0,0,0,.38),
+        0 24px 52px rgba(0,0,0,.52),
+        0 0 24px rgba(10,132,255,.08);
+    }
+
+    .interactive { transition: all .3s cubic-bezier(.16,1,.3,1); }
+
+    .chip {
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.09);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .chip.active {
+      background: linear-gradient(135deg, rgba(10,132,255,.32), rgba(94,92,230,.25));
+      border-color: rgba(110,170,255,.28);
+      box-shadow:
+        inset 0 1.3px 1px rgba(255,255,255,.34),
+        0 0 20px rgba(10,132,255,.17);
+      color: white;
+    }
+
+    .product-row {
+      transition: all .28s cubic-bezier(.16,1,.3,1);
+    }
+
+    .product-row:hover {
+      background: rgba(255,255,255,.04);
+      transform: translateY(-1px);
+    }
+
+    .stock-track {
+      background: rgba(255,255,255,.07);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,.35);
+    }
+
+    .modal-backdrop {
+      background: rgba(2, 4, 10, .62);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .orb {
+      box-shadow: 0 0 0 5px rgba(10,132,255,.08), 0 0 26px rgba(10,132,255,.25);
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar { width: 88px !important; }
+      .sidebar .label { display: none; }
+      .content { margin-left: 88px !important; }
+      .topbar { left: 88px !important; }
+    }
+
+    @media (max-width: 720px) {
+      .sidebar { display: none; }
+      .content { margin-left: 0 !important; }
+      .topbar { left: 0 !important; }
+      .desktop-only { display: none !important; }
+      .mobile-stacked { grid-template-columns: 1fr !important; }
+      .product-card-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="aurora"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar fixed left-4 top-4 bottom-4 w-[250px] z-40 glass p-4 flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-3 px-2 py-2 mb-7">
+        <div class="w-9 h-9 rounded-2xl glass-soft flex items-center justify-center text-sky-300 shadow-[0_0_18px_rgba(10,132,255,.18)]">
+          <span class="material-symbols-outlined">inventory_2</span>
+        </div>
+        <div class="label">
+          <div class="font-display font-bold tracking-tight text-white">StockSense</div>
+          <div class="text-[10px] uppercase tracking-[.2em] text-sky-300 font-semibold">GlassOS Pro</div>
+        </div>
+      </div>
+
+      <nav class="space-y-1.5">
+        <a href="index.html" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+          <span class="material-symbols-outlined">dashboard</span><span class="label">Dashboard</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl chip active font-semibold">
+          <span class="material-symbols-outlined">inventory_2</span><span class="label">Products</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+          <span class="material-symbols-outlined">receipt_long</span><span class="label">Receipts</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+          <span class="material-symbols-outlined">local_shipping</span><span class="label">Deliveries</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+          <span class="material-symbols-outlined">swap_horiz</span><span class="label">Transfers</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+          <span class="material-symbols-outlined">tune</span><span class="label">Adjustments</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+          <span class="material-symbols-outlined">menu_book</span><span class="label">Stock Ledger</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+          <span class="material-symbols-outlined">warehouse</span><span class="label">Warehouses</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="pt-4 border-t border-white/[.08] space-y-1.5">
+      <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+        <span class="material-symbols-outlined">notifications</span><span class="label">Notifications</span>
+        <span class="label ml-auto text-[10px] px-2 py-0.5 rounded-full bg-sky-400/10 border border-sky-400/20 text-sky-300">3</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+        <span class="material-symbols-outlined">account_circle</span><span class="label">Profile</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3.5 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-white/[.045] transition">
+        <span class="material-symbols-outlined">settings</span><span class="label">Settings</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Topbar -->
+  <header class="topbar fixed top-0 left-[282px] right-0 z-30 h-[82px] px-7 flex items-center justify-between bg-[#070A12]/58 backdrop-blur-2xl border-b border-white/[.07]">
+    <div>
+      <div class="text-[10px] uppercase tracking-[.22em] text-sky-300 font-semibold">Inventory Catalog</div>
+      <h1 class="font-display text-2xl font-bold tracking-tight">Products</h1>
+      <p class="text-sm text-slate-400">Manage products, stock levels and locations.</p>
+    </div>
+
+    <div class="hidden md:flex items-center gap-3">
+      <div class="relative">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[20px]">search</span>
+        <input id="topSearch" class="w-[310px] h-11 pl-11 pr-4 rounded-full bg-white/[.045] border border-white/[.09] border-t-white/[.2] outline-none text-sm placeholder:text-slate-500 backdrop-blur-xl focus:ring-2 focus:ring-sky-400/20" placeholder="Search products, SKU..." />
+      </div>
+
+      <button class="glass-soft interactive px-4 h-11 rounded-full flex items-center gap-2 text-sm hover:text-sky-200">
+        <span class="material-symbols-outlined text-sky-300 text-[18px]">warehouse</span>
+        Main Warehouse
+        <span class="material-symbols-outlined text-[17px] text-slate-500">expand_more</span>
+      </button>
+
+      <button class="w-11 h-11 rounded-full glass-soft interactive flex items-center justify-center text-slate-300 hover:text-white relative">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_10px_#0A84FF]"></span>
+      </button>
+
+      <div class="flex items-center gap-2 pl-1">
+        <div class="w-10 h-10 rounded-full glass-soft flex items-center justify-center text-sky-200 font-semibold">NS</div>
+        <div class="hidden xl:block">
+          <div class="text-sm font-semibold">Navdeep S.</div>
+          <div class="text-xs text-slate-500">Lead Controller</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="content ml-[282px] pt-[108px] px-7 pb-12 min-h-screen">
+    <!-- Toolbar -->
+    <section class="glass p-5 mb-5">
+      <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+        <div>
+          <div class="text-xs text-slate-400">CATALOG OVERVIEW</div>
+          <div class="font-display text-lg font-semibold mt-1">1,248 products across 3 warehouses</div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button data-filter="all" class="filter chip active px-4 py-2 rounded-full text-sm">All Products</button>
+          <button data-filter="healthy" class="filter chip px-4 py-2 rounded-full text-sm text-slate-400">Healthy</button>
+          <button data-filter="low" class="filter chip px-4 py-2 rounded-full text-sm text-slate-400">Low Stock</button>
+          <button data-filter="out" class="filter chip px-4 py-2 rounded-full text-sm text-slate-400">Out of Stock</button>
+          <button id="addProductBtn" class="interactive ml-1 px-4 py-2 rounded-full bg-gradient-to-r from-[#0A84FF] to-[#5E5CE6] text-white font-semibold text-sm shadow-[0_8px_24px_rgba(10,132,255,.25)] hover:brightness-110">
+            <span class="inline-flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">add</span>Add Product</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
+      <div class="glass p-5 interactive">
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-slate-400">Total Products</span>
+          <span class="w-9 h-9 rounded-2xl glass-soft flex items-center justify-center text-sky-300"><span class="material-symbols-outlined">inventory_2</span></span>
+        </div>
+        <div class="font-display text-3xl font-bold mt-4">1,248</div>
+        <div class="text-xs text-emerald-300 mt-2">+6.2% this month</div>
+      </div>
+
+      <div class="glass p-5 interactive">
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-slate-400">Healthy Stock</span>
+          <span class="w-9 h-9 rounded-2xl glass-soft flex items-center justify-center text-emerald-300"><span class="material-symbols-outlined">verified</span></span>
+        </div>
+        <div class="font-display text-3xl font-bold mt-4">982</div>
+        <div class="text-xs text-slate-400 mt-2">78.7% of catalog</div>
+      </div>
+
+      <div class="glass p-5 interactive">
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-slate-400">Needs Attention</span>
+          <span class="w-9 h-9 rounded-2xl glass-soft flex items-center justify-center text-orange-300"><span class="material-symbols-outlined">warning</span></span>
+        </div>
+        <div class="font-display text-3xl font-bold mt-4">24</div>
+        <div class="text-xs text-orange-300 mt-2">Low-stock SKUs</div>
+      </div>
+
+      <div class="glass p-5 interactive">
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-slate-400">Out of Stock</span>
+          <span class="w-9 h-9 rounded-2xl glass-soft flex items-center justify-center text-rose-300"><span class="material-symbols-outlined">error</span></span>
+        </div>
+        <div class="font-display text-3xl font-bold mt-4">8</div>
+        <div class="text-xs text-rose-300 mt-2">Critical items</div>
+      </div>
+    </section>
+
+    <!-- Main catalog -->
+    <section class="glass p-5">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-5">
+        <div>
+          <div class="font-display text-lg font-semibold">Product Catalog</div>
+          <div class="text-sm text-slate-400">Browse product details, availability and stock health.</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <select id="categoryFilter" class="glass-soft rounded-full px-4 py-2.5 bg-transparent text-sm text-slate-200 outline-none">
+            <option class="bg-[#111522]" value="all">All Categories</option>
+            <option class="bg-[#111522]" value="Raw Material">Raw Material</option>
+            <option class="bg-[#111522]" value="Finished Goods">Finished Goods</option>
+            <option class="bg-[#111522]" value="Packaging">Packaging</option>
+            <option class="bg-[#111522]" value="Components">Components</option>
+          </select>
+          <select id="locationFilter" class="glass-soft rounded-full px-4 py-2.5 bg-transparent text-sm text-slate-200 outline-none">
+            <option class="bg-[#111522]" value="all">All Locations</option>
+            <option class="bg-[#111522]" value="Main Warehouse">Main Warehouse</option>
+            <option class="bg-[#111522]" value="Production Rack">Production Rack</option>
+            <option class="bg-[#111522]" value="Warehouse 2">Warehouse 2</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Desktop table -->
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="text-[11px] uppercase tracking-wider text-slate-500 border-b border-white/[.08]">
+              <th class="pb-4 px-3">Product</th>
+              <th class="pb-4 px-3">Category</th>
+              <th class="pb-4 px-3">Location</th>
+              <th class="pb-4 px-3">Stock</th>
+              <th class="pb-4 px-3">Health</th>
+              <th class="pb-4 px-3 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="productTable">
+            <tr class="product-row border-b border-white/[.055]" data-status="low" data-category="Raw Material" data-location="Main Warehouse" data-search="Reinforced Steel Rods 12mm ST-001">
+              <td class="py-4 px-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-2xl glass-soft flex items-center justify-center text-orange-300">
+                    <span class="material-symbols-outlined">construction</span>
+                  </div>
+                  <div><div class="font-semibold">Reinforced Steel Rods 12mm</div><div class="text-xs text-slate-500 mt-0.5">SKU: ST-001</div></div>
+                </div>
+              </td>
+              <td class="px-3 text-sm text-slate-300">Raw Material</td>
+              <td class="px-3 text-sm text-slate-300">Main Warehouse</td>
+              <td class="px-3">
+                <div class="font-semibold">18 kg</div>
+                <div class="text-[11px] text-slate-500">Reorder: 50 kg</div>
+              </td>
+              <td class="px-3">
+                <span class="px-2.5 py-1 rounded-full text-xs bg-orange-400/10 border border-orange-300/15 text-orange-300">Low Stock</span>
+              </td>
+              <td class="px-3 text-right">
+                <button onclick="openDetails('Reinforced Steel Rods 12mm','ST-001','Raw Material','Main Warehouse','18 kg','Low Stock')" class="glass-soft px-3 py-2 rounded-full text-xs hover:text-white">View</button>
+              </td>
+            </tr>
+
+            <tr class="product-row border-b border-white/[.055]" data-status="healthy" data-category="Finished Goods" data-location="Production Rack" data-search="Ergonomic Chair CH-220">
+              <td class="py-4 px-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-2xl glass-soft flex items-center justify-center text-sky-300">
+                    <span class="material-symbols-outlined">chair</span>
+                  </div>
+                  <div><div class="font-semibold">Ergonomic Chair</div><div class="text-xs text-slate-500 mt-0.5">SKU: CH-220</div></div>
+                </div>
+              </td>
+              <td class="px-3 text-sm text-slate-300">Finished Goods</td>
+              <td class="px-3 text-sm text-slate-300">Production Rack</td>
+              <td class="px-3">
+                <div class="font-semibold">420 units</div>
+                <div class="text-[11px] text-slate-500">Reorder: 100</div>
+              </td>
+              <td class="px-3">
+                <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-400/10 border border-emerald-300/15 text-emerald-300">Healthy</span>
+              </td>
+              <td class="px-3 text-right"><button onclick="openDetails('Ergonomic Chair','CH-220','Finished Goods','Production Rack','420 units','Healthy')" class="glass-soft px-3 py-2 rounded-full text-xs hover:text-white">View</button></td>
+            </tr>
+
+            <tr class="product-row border-b border-white/[.055]" data-status="healthy" data-category="Components" data-location="Warehouse 2" data-search="Copper Wire CW-081">
+              <td class="py-4 px-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-2xl glass-soft flex items-center justify-center text-cyan-300">
+                    <span class="material-symbols-outlined">cable</span>
+                  </div>
+                  <div><div class="font-semibold">Copper Wire</div><div class="text-xs text-slate-500 mt-0.5">SKU: CW-081</div></div>
+                </div>
+              </td>
+              <td class="px-3 text-sm text-slate-300">Components</td>
+              <td class="px-3 text-sm text-slate-300">Warehouse 2</td>
+              <td class="px-3">
+                <div class="font-semibold">680 kg</div>
+                <div class="text-[11px] text-slate-500">Reorder: 200</div>
+              </td>
+              <td class="px-3">
+                <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-400/10 border border-emerald-300/15 text-emerald-300">Healthy</span>
+              </td>
+              <td class="px-3 text-right"><button onclick="openDetails('Copper Wire','CW-081','Components','Warehouse 2','680 kg','Healthy')" class="glass-soft px-3 py-2 rounded-full text-xs hover:text-white">View</button></td>
+            </tr>
+
+            <tr class="product-row border-b border-white/[.055]" data-status="out" data-category="Packaging" data-location="Main Warehouse" data-search="Heavy Duty Corrugated Box XL BX-104">
+              <td class="py-4 px-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-2xl glass-soft flex items-center justify-center text-rose-300">
+                    <span class="material-symbols-outlined">inventory</span>
+                  </div>
+                  <div><div class="font-semibold">Heavy Duty Corrugated Box XL</div><div class="text-xs text-slate-500 mt-0.5">SKU: BX-104</div></div>
+                </div>
+              </td>
+              <td class="px-3 text-sm text-slate-300">Packaging</td>
+              <td class="px-3 text-sm text-slate-300">Main Warehouse</td>
+              <td class="px-3">
+                <div class="font-semibold text-rose-300">0 units</div>
+                <div class="text-[11px] text-slate-500">Reorder: 120</div>
+              </td>
+              <td class="px-3">
+                <span class="px-2.5 py-1 rounded-full text-xs bg-rose-400/10 border border-rose-300/15 text-rose-300">Out of Stock</span>
+              </td>
+              <td class="px-3 text-right"><button onclick="openDetails('Heavy Duty Corrugated Box XL','BX-104','Packaging','Main Warehouse','0 units','Out of Stock')" class="glass-soft px-3 py-2 rounded-full text-xs hover:text-white">View</button></td>
+            </tr>
+
+            <tr class="product-row" data-status="healthy" data-category="Raw Material" data-location="Main Warehouse" data-search="Wood Panels WP-400">
+              <td class="py-4 px-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-11 h-11 rounded-2xl glass-soft flex items-center justify-center text-purple-300">
+                    <span class="material-symbols-outlined">view_quilt</span>
+                  </div>
+                  <div><div class="font-semibold">Wood Panels</div><div class="text-xs text-slate-500 mt-0.5">SKU: WP-400</div></div>
+                </div>
+              </td>
+              <td class="px-3 text-sm text-slate-300">Raw Material</td>
+              <td class="px-3 text-sm text-slate-300">Main Warehouse</td>
+              <td class="px-3">
+                <div class="font-semibold">245 units</div>
+                <div class="text-[11px] text-slate-500">Reorder: 80</div>
+              </td>
+              <td class="px-3">
+                <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-400/10 border border-emerald-300/15 text-emerald-300">Healthy</span>
+              </td>
+              <td class="px-3 text-right"><button onclick="openDetails('Wood Panels','WP-400','Raw Material','Main Warehouse','245 units','Healthy')" class="glass-soft px-3 py-2 rounded-full text-xs hover:text-white">View</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile cards -->
+      <div id="mobileProducts" class="md:hidden grid gap-3">
+        <div class="glass-soft p-4 rounded-3xl">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="font-semibold">Reinforced Steel Rods 12mm</div>
+              <div class="text-xs text-slate-500">ST-001 · Main Warehouse</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs bg-orange-400/10 text-orange-300">Low Stock</span>
+          </div>
+          <div class="flex items-end justify-between mt-4">
+            <div><div class="text-xl font-bold">18 kg</div><div class="text-xs text-slate-500">Reorder: 50 kg</div></div>
+            <button onclick="openDetails('Reinforced Steel Rods 12mm','ST-001','Raw Material','Main Warehouse','18 kg','Low Stock')" class="glass-soft px-3 py-2 rounded-full text-xs">View</button>
+          </div>
+        </div>
+
+        <div class="glass-soft p-4 rounded-3xl">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="font-semibold">Ergonomic Chair</div>
+              <div class="text-xs text-slate-500">CH-220 · Production Rack</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-400/10 text-emerald-300">Healthy</span>
+          </div>
+          <div class="flex items-end justify-between mt-4">
+            <div><div class="text-xl font-bold">420 units</div><div class="text-xs text-slate-500">Reorder: 100</div></div>
+            <button onclick="openDetails('Ergonomic Chair','CH-220','Finished Goods','Production Rack','420 units','Healthy')" class="glass-soft px-3 py-2 rounded-full text-xs">View</button>
+          </div>
+        </div>
+
+        <div class="glass-soft p-4 rounded-3xl">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="font-semibold">Copper Wire</div>
+              <div class="text-xs text-slate-500">CW-081 · Warehouse 2</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs bg-emerald-400/10 text-emerald-300">Healthy</span>
+          </div>
+          <div class="flex items-end justify-between mt-4">
+            <div><div class="text-xl font-bold">680 kg</div><div class="text-xs text-slate-500">Reorder: 200</div></div>
+            <button onclick="openDetails('Copper Wire','CW-081','Components','Warehouse 2','680 kg','Healthy')" class="glass-soft px-3 py-2 rounded-full text-xs">View</button>
+          </div>
+        </div>
+
+        <div class="glass-soft p-4 rounded-3xl">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="font-semibold">Heavy Duty Corrugated Box XL</div>
+              <div class="text-xs text-slate-500">BX-104 · Main Warehouse</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full text-xs bg-rose-400/10 text-rose-300">Out of Stock</span>
+          </div>
+          <div class="flex items-end justify-between mt-4">
+            <div><div class="text-xl font-bold text-rose-300">0 units</div><div class="text-xs text-slate-500">Reorder: 120</div></div>
+            <button onclick="openDetails('Heavy Duty Corrugated Box XL','BX-104','Packaging','Main Warehouse','0 units','Out of Stock')" class="glass-soft px-3 py-2 rounded-full text-xs">View</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-5 pt-4 border-t border-white/[.07] text-xs text-slate-500">
+        <span>Showing 5 sample products</span>
+        <div class="flex items-center gap-2">
+          <button class="glass-soft px-3 py-1.5 rounded-full">← Previous</button>
+          <span class="px-2">1</span>
+          <button class="glass-soft px-3 py-1.5 rounded-full">Next →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Product Details Modal -->
+  <div id="detailsModal" class="hidden fixed inset-0 z-[60] modal-backdrop items-center justify-center p-5">
+    <div class="glass w-full max-w-2xl p-6 relative">
+      <button onclick="closeDetails()" class="absolute top-4 right-4 w-10 h-10 rounded-full glass-soft flex items-center justify-center text-slate-400 hover:text-white">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+      <div class="text-[10px] uppercase tracking-[.2em] text-sky-300 font-semibold">Product Snapshot</div>
+      <div id="modalName" class="font-display text-2xl font-bold mt-1 pr-12"></div>
+      <div id="modalSku" class="text-sm text-slate-500 mt-1"></div>
+
+      <div class="grid sm:grid-cols-2 gap-3 mt-6">
+        <div class="glass-soft rounded-3xl p-4">
+          <div class="text-xs text-slate-500">Category</div>
+          <div id="modalCategory" class="font-semibold mt-1"></div>
+        </div>
+        <div class="glass-soft rounded-3xl p-4">
+          <div class="text-xs text-slate-500">Location</div>
+          <div id="modalLocation" class="font-semibold mt-1"></div>
+        </div>
+        <div class="glass-soft rounded-3xl p-4">
+          <div class="text-xs text-slate-500">Available Stock</div>
+          <div id="modalStock" class="font-display text-2xl font-bold mt-1"></div>
+        </div>
+        <div class="glass-soft rounded-3xl p-4">
+          <div class="text-xs text-slate-500">Stock Health</div>
+          <div id="modalStatus" class="font-semibold mt-1"></div>
+        </div>
+      </div>
+
+      <div class="glass-soft rounded-3xl p-4 mt-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="font-semibold">Quick Actions</div>
+            <div class="text-xs text-slate-500 mt-1">Actions remain contextual to this product.</div>
+          </div>
+          <div class="w-11 h-11 rounded-2xl glass-soft orb flex items-center justify-center text-sky-300">
+            <span class="material-symbols-outlined">bolt</span>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <button class="glass-soft px-4 py-2.5 rounded-full text-sm">Edit</button>
+          <button class="glass-soft px-4 py-2.5 rounded-full text-sm">Adjust Stock</button>
+          <button class="glass-soft px-4 py-2.5 rounded-full text-sm">Transfer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Product Modal -->
+  <div id="addModal" class="hidden fixed inset-0 z-[60] modal-backdrop items-center justify-center p-5">
+    <div class="glass w-full max-w-xl p-6 relative">
+      <button onclick="closeAdd()" class="absolute top-4 right-4 w-10 h-10 rounded-full glass-soft flex items-center justify-center text-slate-400 hover:text-white">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="text-[10px] uppercase tracking-[.2em] text-sky-300 font-semibold">Catalog Action</div>
+      <div class="font-display text-2xl font-bold mt-1">Add Product</div>
+      <div class="text-sm text-slate-400 mt-1">Create a new inventory item.</div>
+
+      <form id="addForm" class="grid sm:grid-cols-2 gap-4 mt-6">
+        <label class="sm:col-span-2 text-sm">
+          <span class="block text-xs text-slate-400 mb-2">Product Name</span>
+          <input required class="w-full glass-soft rounded-2xl px-4 py-3 bg-transparent outline-none focus:ring-2 focus:ring-sky-400/20" placeholder="e.g. Steel Bolts M8">
+        </label>
+        <label class="text-sm">
+          <span class="block text-xs text-slate-400 mb-2">SKU</span>
+          <input required class="w-full glass-soft rounded-2xl px-4 py-3 bg-transparent outline-none focus:ring-2 focus:ring-sky-400/20" placeholder="SKU-001">
+        </label>
+        <label class="text-sm">
+          <span class="block text-xs text-slate-400 mb-2">Category</span>
+          <select required class="w-full glass-soft rounded-2xl px-4 py-3 bg-[#0d1220] outline-none">
+            <option>Raw Material</option>
+            <option>Finished Goods</option>
+            <option>Packaging</option>
+            <option>Components</option>
+          </select>
+        </label>
+        <label class="text-sm">
+          <span class="block text-xs text-slate-400 mb-2">Initial Stock</span>
+          <input required type="number" min="0" class="w-full glass-soft rounded-2xl px-4 py-3 bg-transparent outline-none focus:ring-2 focus:ring-sky-400/20" placeholder="0">
+        </label>
+        <label class="text-sm">
+          <span class="block text-xs text-slate-400 mb-2">Location</span>
+          <select required class="w-full glass-soft rounded-2xl px-4 py-3 bg-[#0d1220] outline-none">
+            <option>Main Warehouse</option>
+            <option>Production Rack</option>
+            <option>Warehouse 2</option>
+          </select>
+        </label>
+        <div class="sm:col-span-2 flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeAdd()" class="glass-soft px-5 py-2.5 rounded-full text-sm">Cancel</button>
+          <button type="submit" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#0A84FF] to-[#5E5CE6] font-semibold text-sm shadow-[0_8px_24px_rgba(10,132,255,.25)]">Create Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const filters = [...document.querySelectorAll(".filter")];
+    const rows = [...document.querySelectorAll("#productTable .product-row")];
+    const topSearch = document.getElementById("topSearch");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const locationFilter = document.getElementById("locationFilter");
+
+    let activeStatus = "all";
+
+    function applyFilters() {
+      const query = (topSearch.value || "").trim().toLowerCase();
+      const category = categoryFilter.value;
+      const location = locationFilter.value;
+
+      rows.forEach(row => {
+        const status = row.dataset.status;
+        const rowCategory = row.dataset.category;
+        const rowLocation = row.dataset.location;
+        const searchable = row.dataset.search.toLowerCase();
+
+        const matchesStatus = activeStatus === "all" || status === activeStatus;
+        const matchesCategory = category === "all" || rowCategory === category;
+        const matchesLocation = location === "all" || rowLocation === location;
+        const matchesSearch = !query || searchable.includes(query);
+
+        row.style.display = (matchesStatus && matchesCategory && matchesLocation && matchesSearch) ? "" : "none";
+      });
+    }
+
+    filters.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filters.forEach(x => x.classList.remove("active"));
+        btn.classList.add("active");
+        activeStatus = btn.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    [topSearch, categoryFilter, locationFilter].forEach(el => {
+      el.addEventListener("input", applyFilters);
+      el.addEventListener("change", applyFilters);
+    });
+
+    function openDetails(name, sku, category, location, stock, status) {
+      document.getElementById("modalName").textContent = name;
+      document.getElementById("modalSku").textContent = "SKU: " + sku;
+      document.getElementById("modalCategory").textContent = category;
+      document.getElementById("modalLocation").textContent = location;
+      document.getElementById("modalStock").textContent = stock;
+      document.getElementById("modalStatus").textContent = status;
+
+      const statusEl = document.getElementById("modalStatus");
+      statusEl.className = "font-semibold mt-1 " +
+        (status === "Healthy" ? "text-emerald-300" :
+         status === "Low Stock" ? "text-orange-300" : "text-rose-300");
+
+      const modal = document.getElementById("detailsModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeDetails() {
+      const modal = document.getElementById("detailsModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function closeAdd() {
+      const modal = document.getElementById("addModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    document.getElementById("addProductBtn").addEventListener("click", () => {
+      const modal = document.getElementById("addModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    });
+
+    document.getElementById("addForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      closeAdd();
+      alert("Product created successfully.");
+    });
+
+    document.getElementById("detailsModal").addEventListener("click", (e) => {
+      if (e.target.id === "detailsModal") closeDetails();
+    });
+
+    document.getElementById("addModal").addEventListener("click", (e) => {
+      if (e.target.id === "addModal") closeAdd();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeDetails();
+        closeAdd();
+      }
+    });
+
+    applyFilters();
+  </script>
+</body>
+</html>
